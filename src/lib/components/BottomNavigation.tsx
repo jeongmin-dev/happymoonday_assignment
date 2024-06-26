@@ -51,6 +51,7 @@ const NavItem = styled(Link)<{ active?: string }>`
   align-items: center;
   gap: 0.125rem;
   padding: 0 1rem;
+  font-size: 0.8rem;
   color: ${({ active }) => (active === "true" ? "#ffffff" : "#686868")};
   text-decoration: none;
 `;
