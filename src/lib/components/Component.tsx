@@ -21,9 +21,10 @@ const Wrapper = styled.main`
 `;
 
 const Container = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
-  max-width: 23.438rem;
+  max-width: 26.875rem;
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
