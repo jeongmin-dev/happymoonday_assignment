@@ -40,7 +40,7 @@ const Nav = styled.nav`
   left: 50%;
   transform: translateX(-50%);
   padding: 0.5rem;
-  max-width: 23.438rem;
+  max-width: 26.875rem;
   width: 100%;
   background-color: #000000;
 `;
