@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useAtomValue, useSetAtom } from "jotai";
 import styled from "styled-components";
+import SearchDialog from "./SearchDialog";
 import TextField from "../atoms/TextField";
 import { CancelIcon, SearchIcon } from "@/lib/components/atoms/Icons";
 import { searchAtom } from "@/app/(top-navbar)/search/page";
-import { useAtomValue, useSetAtom } from "jotai";
-import { usePathname, useRouter } from "next/navigation";
 
 interface SearchBarProps {
   onSearch: () => void;
@@ -17,11 +18,12 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   const pathName = usePathname();
   const searchValue = useAtomValue(searchAtom);
   const setSearchValue = useSetAtom(searchAtom);
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       if (searchValue.title === "" || searchValue.title === undefined) {
-        alert("검색어를 입력해주세요.");
+        setOpenDialog(true);
         return;
       }
       router.replace(`${pathName}?title=${searchValue.title}`);
@@ -54,6 +56,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           <CancelIcon />
         </IconContainer>
       )}
+      {openDialog && <SearchDialog open={openDialog} setOpen={setOpenDialog} />}
     </SearchBarContainer>
   );
 }
