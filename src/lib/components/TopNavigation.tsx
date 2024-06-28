@@ -2,7 +2,7 @@
 
 import React from "react";
 import styled from "styled-components";
-import { BackIcon } from "../styles/Icons";
+import { BackIcon } from "./atoms/Icons";
 import { useRouter } from "next/navigation";
 
 interface TopNavigationProps {
@@ -49,18 +49,24 @@ const BackButtonContainer = styled.button`
   border: none;
   cursor: pointer;
   & svg {
-    color: #c9c9c9;
+    color: #999999;
     &:hover {
-      color: #999999;
+      color: #686868;
     }
   }
 `;
 
-const RightIconContainer = styled.button`
+const RightIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  & svg {
+    color: #999999;
+    &:hover {
+      color: #686868;
+    }
+  }
 `;

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { atom, useAtom } from "jotai";
 import styled from "styled-components";
-import { BookmarkIcon, HomeIcon } from "../styles/Icons";
+import { BookmarkIcon, HomeIcon } from "./atoms/Icons";
 
 export const bottomNavigationAtom = atom("/");
 

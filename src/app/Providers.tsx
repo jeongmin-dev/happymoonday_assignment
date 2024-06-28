@@ -1,6 +1,6 @@
 "use client";
 
-import StyledComponentsRegistry from "@/lib/Registry";
+import StyledComponentsRegistry from "@/lib/styles/Registry";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
