@@ -7,9 +7,10 @@ import { useInfiniteQuery } from "react-query";
 import styled from "styled-components";
 import Loading from "@/lib/components/Loading";
 import ItemCard from "@/lib/components/ItemCard";
+import TopNavigation from "@/lib/components/TopNavigation";
 import YearSort from "@/lib/components/search/YearSort";
 import SearchBar from "@/lib/components/search/SearchBar";
-import TopNavigation from "@/lib/components/TopNavigation";
+import SearchDialog from "@/lib/components/search/SearchDialog";
 import Button from "@/lib/components/atoms/Button";
 import { getItems } from "@/lib/services/apis/search";
 import { Item } from "@/lib/services/apis/search.types";
@@ -37,38 +38,12 @@ export default function Search() {
   const [itemData, setItemData] = useAtom(itemDataAtom);
   const [buttonActive, setButtonActive] = React.useState(true);
   const [errorCode, setErrorCode] = React.useState<string>("");
-
-  React.useEffect(() => {
-    if (search.title !== "") {
-      fetchNextPage({ pageParam: 0 });
-    }
-
-    if (searchParams.has("title")) {
-      const title = searchParams.get("title") as string;
-      setSearch({ ...search, title });
-    }
-
-    return () => {
-      setSearch({
-        startIdx: 0,
-        endIdx: 100,
-        category: "",
-        year: "",
-        title: "",
-      });
-      setItemData([]);
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (search.title === "" || search.title === undefined) {
-      setErrorCode("");
-    }
-  }, [search.title]);
+  const [openDialog, setOpenDialog] = React.useState(false);
 
   const { data, isLoading, isFetching, isRefetching, fetchNextPage } =
     useInfiniteQuery(["search"], () => getItems(search), {
-      enabled: search.title !== "",
+      enabled:
+        searchParams.has("title") && search.title === searchParams.get("title"),
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       refetchOnMount: false,
@@ -124,6 +99,34 @@ export default function Search() {
       },
     });
 
+  React.useEffect(() => {
+    if (search.title !== "") {
+      fetchNextPage({ pageParam: 0 });
+    }
+
+    if (searchParams.has("title")) {
+      const title = searchParams.get("title") as string;
+      setSearch({ ...search, title });
+    }
+
+    return () => {
+      setSearch({
+        startIdx: 0,
+        endIdx: 100,
+        category: "",
+        year: "",
+        title: "",
+      });
+      setItemData([]);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (search.title === "" || search.title === undefined) {
+      setErrorCode("");
+    }
+  }, [search.title]);
+
   const observer = React.useRef<IntersectionObserver>();
 
   const lastElementRef = React.useCallback(
@@ -149,7 +152,7 @@ export default function Search() {
 
   const handleSearch = () => {
     if (search.title === "" || search.title === undefined) {
-      alert("검색어를 입력해주세요.");
+      setOpenDialog(true);
       return;
     }
     router.replace(`${pathName}?title=${search.title}`);
@@ -205,6 +208,7 @@ export default function Search() {
           </Button>
         </SearchButtonContainer>
       </SearchContent>
+      {openDialog && <SearchDialog open={openDialog} setOpen={setOpenDialog} />}
     </SearchContainer>
   );
 }
