@@ -8,7 +8,7 @@ export const createPath = (request: GetItemsRequest) => {
   const valueMap = Object.entries(request)
     .map(([_, value]) => {
       if (value === "") {
-        return "";
+        return " ";
       }
       return value;
     })
